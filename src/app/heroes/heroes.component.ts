@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Hero } from '../hero';
+import { HEROES } from '../mock-heroes';
 
 @Component({
   selector: 'app-heroes',
@@ -7,8 +8,14 @@ import { Hero } from '../hero';
   styleUrls: ['./heroes.component.css']
 })
 export class HeroesComponent {
-  hero: Hero = {
-    id: 1,
-    name: 'Flash'
-  };
+  heroes = HEROES;
+  selectedHero?: Hero;
+
+  onSelect(hero: Hero): void {
+    if (this.selectedHero === hero) {
+      this.selectedHero = undefined; // Si se hace clic en el héroe seleccionado, se quita la selección.
+    } else {
+      this.selectedHero = hero; // Si se hace clic en otro héroe, se actualiza la selección.
+    }
+  }
 }
