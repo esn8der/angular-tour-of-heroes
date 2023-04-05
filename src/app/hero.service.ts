@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 import { Hero } from './hero';
-import { HEROES } from './mock-heroes';
 import { MessageService } from './message.service';
 
 @Injectable({
@@ -20,7 +19,7 @@ export class HeroService {
     this.messageService.add(`HeroService: ${message}`);
   }
 
-  private heroesUrl = 'api/heroes';  // URL to web api
+  private heroesUrl = 'http://localhost:8080/tour-api/v1/heroes';  // URL to web api
 
   getHeroes(): Observable<Hero[]> {
     return this.http.get<Hero[]>(this.heroesUrl)
@@ -75,7 +74,7 @@ export class HeroService {
       // if not search term, return empty hero array.
       return of([]);
     }
-    return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${term}`).pipe(
+    return this.http.get<Hero[]>(`${this.heroesUrl}?name=${term}`).pipe(
       tap(x => x.length ?
         this.log(`found heroes matching "${term}"`) :
         this.log(`no heroes matching "${term}"`)),
